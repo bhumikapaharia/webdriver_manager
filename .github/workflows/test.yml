@@ -94,4 +94,4 @@ jobs:
 #              apt-get update && \
 #              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
 #              opera --version && \
-              sudo apt-get update -y
+#              sudo apt-get update -y
