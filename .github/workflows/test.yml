@@ -67,7 +67,7 @@ jobs:
               bash -exc 'apt-get update && apt-get -y install python3 python3-pip python3-venv curl wget git vim make && \
               python3 -m pip install virtualenv && python3 -m venv py38-venv && \
               source py38-venv/bin/activate && \
-
+              apt-get install software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && \
               python -m pip install --upgrade pip && \
               python --version && \
               uname -m && \
@@ -80,20 +80,23 @@ jobs:
               apt-get update && \
               apt-get -y --no-install-recommends install opera-stable chromium-browser && \
               opera --version && \
-              
-              apt install opera-stable
-              export DISPLAY=:99.0
-              sh -e /etc/init.d/xvfb start
-              "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile--background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-              apt-get -y --no-install-recommends install opera-stable
-              opera --version
-              
+
               python -m pip install -U pip wheel && \
               pip install pipenv && \
               pipenv install --dev && \
-              
+                            
+              export GH_TOKEN = "asdasdasdasd" && \
               pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/ && \
               deactivate'
+              
+#              apt install opera-stable
+#              export DISPLAY=:99.0
+#              sh -e /etc/init.d/xvfb start
+#              "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile--background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+#              apt-get -y --no-install-recommends install opera-stable
+#              opera --version
+              
+
 
 #              wget -qO- https://deb.opera.com/archive.key | apt-key add - && \
 #              add-apt-repository "deb [arch=arm64] https://deb.opera.com/opera-stable/ stable non-free" && \
