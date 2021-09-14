@@ -77,7 +77,7 @@ jobs:
               ls && \
               
               wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
-              add-apt-repository 'deb https://deb.opera.com/opera-stable/ stable non-free' && \
+              add-apt-repository "deb https://deb.opera.com/opera-stable/ stable non-free" && \
               apt-get update && \
               apt-get -y --no-install-recommends install opera-stable chromium-browser && \
 
