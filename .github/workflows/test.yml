@@ -75,10 +75,10 @@ jobs:
               pwd && \
               ls && \
               
-              wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
-              add-apt-repository 'deb https://deb.opera.com/opera-stable/ stable non-free' && \
-              apt-get update && \
-              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
+              apt install snapd && \
+              snap install opera && \
+              
+
               opera --version && \
 
               python -m pip install -U pip wheel && \
@@ -88,6 +88,11 @@ jobs:
               export GH_TOKEN = "asdasdasdasd" && \
               pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/ && \
               deactivate'
+              
+#             wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
+#              add-apt-repository 'deb https://deb.opera.com/opera-stable/ stable non-free' && \
+#              apt-get update && \
+#              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
               
 #              apt install opera-stable
 #              export DISPLAY=:99.0
