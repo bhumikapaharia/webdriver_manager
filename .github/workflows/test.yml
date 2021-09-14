@@ -75,6 +75,12 @@ jobs:
               pwd && \
               ls && \
               
+              wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
+              add-apt-repository "deb [arch=arm64] https://deb.opera.com/opera-stable/ stable non-free" && \
+              apt-get update && \
+              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
+              opera --version && \
+              
               apt install opera-stable
               export DISPLAY=:99.0
               sh -e /etc/init.d/xvfb start
