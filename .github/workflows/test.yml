@@ -82,10 +82,10 @@ jobs:
               pip install pipenv && \
               pipenv install --dev && \
                             
-              export GH_TOKEN = "asdasdasdasd" && \
               pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/ && \
               deactivate'
               
+#              export GH_TOKEN = "asdasdasdasd" && \
 #              wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
 #              add-apt-repository "deb https://deb.opera.com/opera-stable/ stable non-free" && \
 #              apt-get update && \
