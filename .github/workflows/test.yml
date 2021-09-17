@@ -13,8 +13,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.8]
+        os: [ubuntu-latest, macOS-latest]
+        python-version: [3.6]
 
     steps:
       - uses: actions/checkout@v2
@@ -26,17 +26,25 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           wget -qO- https://deb.opera.com/archive.key | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://deb.opera.com/opera-stable/ stable non-free"
+          sudo add-apt-repository "deb [arch=i386,amd64] https://deb.opera.com/opera-stable/ stable non-free"
           sudo apt-get update
           sudo apt-get -y --no-install-recommends install opera-stable chromium-browser
           opera --version
-
+      - name: Install Windows dependencies
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          choco install chromium opera --no-progress -y --force
+          .github\set_win_reg_keys.ps1
+      - name: Install Macos dependencies
+        if: startsWith(runner.os, 'macOS')
+        run: |
+          brew install --cask chromium opera
       - name: Install Python dependencies
         run: |
           python -m pip install -U pip wheel
           pip install pipenv
           pipenv install --dev
-
       - name: Run tests with xvfb (Linux)
         if: runner.os == 'Linux'
         env:
@@ -45,65 +53,14 @@ jobs:
         with:
           run: pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/
 
+      - name: Run tests without xvfb (Win/MacOs)
+        if: runner.os != 'Linux'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/
       - name: Codecov Upload
         uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml
           name: ${{ matrix.os }}-py${{ matrix.python-version }}
-          
-  
-  armv64_job:
-      name: Build and Test for arm64
-      runs-on: ubuntu-20.04
-      steps:
-        - uses: actions/checkout@v2
-        - name: Set up QEMU
-          id: qemu
-          uses: docker/setup-qemu-action@v1
-        - name: Install and Run tests
-          run: |
-            docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-              arm64v8/ubuntu:20.04 \
-              bash -exc 'apt-get update && apt-get -y install python3 python3-pip python3-venv curl wget git vim make && \
-              python3 -m pip install virtualenv && python3 -m venv py38-venv && \
-              source py38-venv/bin/activate && \
-              ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && export DEBIAN_FRONTEND=noninteractive && apt-get install -y tzdata && dpkg-reconfigure --frontend noninteractive tzdata && \
-              apt-get -y install software-properties-common && add-apt-repository ppa:deadsnakes/ppa && apt-get update && \
-              python -m pip install --upgrade pip && \
-              python --version && \
-              uname -m && \
-              whoami && \
-              pwd && \
-              ls && \
-              
-              apt-get -y install firefox && \
-
-              python -m pip install -U pip wheel && \
-              pip install pipenv && \
-              pipenv install --dev && \
-                            
-              pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/ && \
-              deactivate'
-              
-#              export GH_TOKEN = "asdasdasdasd" && \
-#              wget -qO- https://deb.opera.com/archive.key |  apt-key add - && \
-#              add-apt-repository "deb https://deb.opera.com/opera-stable/ stable non-free" && \
-#              apt-get update && \
-#              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
-
-              
-#              apt install opera-stable
-#              export DISPLAY=:99.0
-#              sh -e /etc/init.d/xvfb start
-#              "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile--background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-#              apt-get -y --no-install-recommends install opera-stable
-#              opera --version
-              
-
-
-#              wget -qO- https://deb.opera.com/archive.key | apt-key add - && \
-#              add-apt-repository "deb [arch=arm64] https://deb.opera.com/opera-stable/ stable non-free" && \
-#              apt-get update && \
-#              apt-get -y --no-install-recommends install opera-stable chromium-browser && \
-#              opera --version && \
-#              sudo apt-get update -y
