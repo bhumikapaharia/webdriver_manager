@@ -76,9 +76,7 @@ jobs:
               pwd && \
               ls && \
               
-              apt -y install snapd && \
-              snap install opera && \
-              opera --version && \
+              apt-get -y install firefox && \
 
               python -m pip install -U pip wheel && \
               pip install pipenv && \
