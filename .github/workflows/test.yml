@@ -75,10 +75,11 @@ jobs:
               ls && \
               
               apt-get -y install chromium-chromedriver && \
-              apt-get -y install firefox && \
               python -m pip install -U pip wheel && \
               pip install pipenv && \
               pipenv install --dev && \
                             
               pipenv run py.test -sv --cov-config .coveragerc --cov-report xml --cov-report term:skip-covered --cov=webdriver_manager --tb=short tests/ && \
               deactivate'
+              
+#               apt-get -y install firefox && \
