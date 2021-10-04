@@ -75,7 +75,7 @@ jobs:
               ls && \
               
               wget https://github.com/electron/electron/releases/download/v14.0.0-beta.22/chromedriver-v14.0.0-beta.22-linux-arm64.zip && /
-              tar -xvf chromedriver-v14.0.0-beta.22-linux-arm64 && \
+              tar -xvf chromedriver-v14.0.0-beta.22-linux-arm64.zip && \
               
               apt-get -y install chromium-chromedriver && \
               python -m pip install -U pip wheel && \
