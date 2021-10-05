@@ -32,6 +32,7 @@ class ChromeDriverManager(DriverManager):
     def install(self):
         log(f"Current {self.driver.chrome_type} version is {self.driver.browser_version}", first_line=True)
         driver_path = self._get_driver_path(self.driver)
+        print("driver_path=", driver_path)
 
         os.chmod(driver_path, 0o755)
         return driver_path
