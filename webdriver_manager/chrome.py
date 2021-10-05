@@ -11,9 +11,8 @@ from webdriver_manager.utils import ChromeType
 class ChromeDriverManager(DriverManager):
     def __init__(self, version="latest",
                  os_type=utils.os_type(),
-                 path=None,
+                 path=/home/runner/.wdm/drivers/chromedriver/linux64/2.26/chromedriver,
                  name="chromedriver",
-                 url="https://chromedriver.storage.googleapis.com",
                  latest_release_url="https://chromedriver.storage.googleapis.com/LATEST_RELEASE",
                  chrome_type=ChromeType.GOOGLE,
                  log_level=logging.INFO,
@@ -36,3 +35,4 @@ class ChromeDriverManager(DriverManager):
 
         os.chmod(driver_path, 0o755)
         return driver_path
+#url="https://chromedriver.storage.googleapis.com",
