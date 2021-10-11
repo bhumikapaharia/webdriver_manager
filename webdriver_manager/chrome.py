@@ -22,6 +22,7 @@ class ChromeDriverManager(DriverManager):
                          cache_valid_range=cache_valid_range)
 
         self.driver = ChromeDriver(name=name,
+                                   path= home/runner/.wdm/drivers/chromedriver/linux64/2.26/chromedriver,
                                    version=version,
                                    os_type=os_type,
                                    url=url,
