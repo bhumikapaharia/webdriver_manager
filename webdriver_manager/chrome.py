@@ -11,7 +11,7 @@ from webdriver_manager.utils import ChromeType
 class ChromeDriverManager(DriverManager):
     def __init__(self, version="latest",
                  os_type=utils.os_type(),
-                 path= home/runner/.wdm/drivers/chromedriver/linux64/2.26/chromedriver,
+                 path= home/drivers/chromedriver/linux64/2.26/chromedriver,
                  name="chromedriver",
                  latest_release_url="https://chromedriver.storage.googleapis.com/LATEST_RELEASE",
                  chrome_type=ChromeType.GOOGLE,
@@ -22,7 +22,7 @@ class ChromeDriverManager(DriverManager):
                          cache_valid_range=cache_valid_range)
 
         self.driver = ChromeDriver(name=name,
-                                   path= home/runner/.wdm/drivers/chromedriver/linux64/2.26/chromedriver,
+                                   path= home/drivers/chromedriver/linux64/2.26/chromedriver,
                                    version=version,
                                    os_type=os_type,
                                    url=url,
